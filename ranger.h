@@ -26,6 +26,7 @@ struct ranger {
 struct ranger::range {
     // for a range to be valid, safe to assume start < end
 
+    struct iterator;
     typedef ranger::int_type int_type;
 
     int_type start;
@@ -41,6 +42,23 @@ struct ranger::range {
     bool operator< (const range &r2) const { return end < r2.end; }
 };
 
+struct ranger::range::iterator {
+    typedef ranger::int_type int_type;
+
+    int_type i;
+
+    iterator() : i(0) {}
+    iterator(int_type n) : i(n) {}
+
+    int_type &operator*()                 { return i; }
+    int_type  operator*()           const { return i; }
+    iterator  operator+(int_type n) const { return i+n; }
+    iterator  operator-(int_type n) const { return i-n; }
+    iterator &operator++()                { ++i; return *this; }
+    iterator &operator--()                { --i; return *this; }
+    iterator  operator++(int)             { return i++; }
+    iterator  operator--(int)             { return i--; }
+};
 
 std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
 std::ostream &operator<<(std::ostream &os, const ranger &r);
