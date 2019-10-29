@@ -16,8 +16,8 @@ struct ranger {
     std::pair<iterator, bool> find(int_type x) const;
 
     bool contains(int_type x) const { return find(x).second; }
-    bool empty() const         { return forest.empty(); }
-    void clear()               { forest.clear(); }
+    bool empty()              const { return forest.empty(); }
+    void clear()                    { forest.clear(); }
 
     // private:
     set_type forest;
