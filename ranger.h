@@ -20,8 +20,6 @@ struct ranger {
     bool empty() const         { return mr_set.empty(); }
     void clear()               { mr_set.clear(); }
 
-    friend std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
-    friend std::ostream &operator<<(std::ostream &os, const ranger &r);
 };
 
 struct ranger::range {
@@ -40,4 +38,7 @@ struct ranger::range {
     bool contains(int x) const { return start <= x && x < end; }
 };
 
+
+std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
+std::ostream &operator<<(std::ostream &os, const ranger &r);
 
