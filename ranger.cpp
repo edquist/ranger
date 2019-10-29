@@ -11,14 +11,16 @@ int main()
     r.insert({50,60});
     r.insert({30,40});
 
-    std::cout << r << "\n";
+    std::cout << r << "\n\n";
 
     for (int x = 5; x < 70; x += 5)
-        std::cout << x << " ?  " << r.contains(x) << "\n";
+        std::cout << "contains " << x << " ?  "
+                  << (r.contains(x) ? "yes" : "no") << "\n";
 
 
+    std::cout << "\n---\n";
     std::cout << "\n";
-    std::cout << r << "\n";
+    std::cout << "Arithmetic on: " << r << "\n";
     std::cout << "\n";
 
     std::vector<ranger::range> vir = {
