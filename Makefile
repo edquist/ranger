@@ -14,6 +14,9 @@ ranger: ranger.cpp ranger_impl.cpp ranger.h
 ranger-explorer: ranger-explorer.cpp ranger_impl.cpp ranger.h
 	$(RANGER.COMP)
 
+test: ranger
+	@if ./ranger | diff -q - test-out.txt; then echo OK; else echo FAIL; fi
+
 clean:
 	$(RM) $(ALL)
 
