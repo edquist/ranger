@@ -104,7 +104,7 @@ ranger::mr_set_it ranger::add(irange r)
         return mr_set.insert(r).first;
 
     auto it = it_start;
-    while (it != mr_set.end() && it->start < r.end)  // '<=' for fracturing
+    while (it != mr_set.end() && it->start <= r.end)  // '<' for fracturing
         ++it;
 
     auto it_end = it;
