@@ -5,9 +5,9 @@
 
 struct ranger {
     struct range;
-    typedef int                       int_type;
-    typedef std::set<range>           set_type;
-    typedef set_type::iterator        iterator;
+    typedef int                 int_type;
+    typedef std::set<range>     set_type;
+    typedef set_type::iterator  iterator;
 
     iterator insert(range r);
     iterator erase(range r);
