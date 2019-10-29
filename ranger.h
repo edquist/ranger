@@ -19,7 +19,7 @@ struct ranger {
     bool empty()              const { return forest.empty(); }
     void clear()                    { forest.clear(); }
 
-    // private:
+    // the state of our ranger
     set_type forest;
 };
 
