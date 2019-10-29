@@ -23,8 +23,6 @@ struct ranger {
 };
 
 struct ranger::range {
-    // for a range to be valid, safe to assume _start < _end
-
     struct iterator;
     typedef ranger::int_type int_type;
 
@@ -40,7 +38,7 @@ struct ranger::range {
     inline iterator begin() const;
     inline iterator end()   const;
 
-    // data members
+    // data members; for a range to be valid, safe to assume _start < _end
     int_type _start;
     int_type _end;
 };
