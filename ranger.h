@@ -7,12 +7,12 @@ struct ranger {
     struct range;
     typedef int                 int_type;
     typedef std::set<range>     set_type;
-    typedef set_type::iterator  iterator;
+    typedef set_type::iterator  set_iterator;
 
-    iterator insert(range r);
-    iterator erase(range r);
+    set_iterator insert(range r);
+    set_iterator erase(range r);
 
-    std::pair<iterator, bool> find(int_type x) const;
+    std::pair<set_iterator, bool> find(int_type x) const;
 
     bool contains(int_type x) const { return find(x).second; }
     bool empty()              const { return forest.empty(); }
