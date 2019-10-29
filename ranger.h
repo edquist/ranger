@@ -29,9 +29,6 @@ struct ranger::range {
     struct iterator;
     typedef ranger::int_type int_type;
 
-    int_type start;
-    int_type end;
-
     range(int_type e) : start(0), end(e) {}
     range(int_type s, int_type e) : start(s), end(e) {}
 
@@ -40,6 +37,10 @@ struct ranger::range {
 
     // only for use in our disjoint ranger forest context
     bool operator< (const range &r2) const { return end < r2.end; }
+
+    // data members
+    int_type start;
+    int_type end;
 };
 
 struct ranger::range::iterator {
