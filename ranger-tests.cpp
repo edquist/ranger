@@ -17,6 +17,14 @@ int main()
         std::cout << "contains " << x << " ?  "
                   << (r.contains(x) ? "yes" : "no") << "\n";
 
+    std::cout << "\n---\n";
+    std::cout << "\n";
+    ranger::range rr1 = {5, 10};
+    std::cout << "Printing range " << rr1 << ":";
+    for (auto i : rr1)
+        std::cout << " " << i;
+    std::cout << "\n";
+
 
     std::cout << "\n---\n";
     std::cout << "\n";
