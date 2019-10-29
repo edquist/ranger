@@ -41,7 +41,7 @@ ranger::iterator ranger::insert(ranger::range r)
     if (mr_set.empty())
         return mr_set.insert(r).first;
 
-    // NOTE: use upper_bound for fracturing
+    // NOTE: use upper_bound for fracturing (ie, not to coalesce)
     auto it_start = mr_set.lower_bound(r.start);
     if (it_start == mr_set.end())
         return mr_set.insert(r).first;
