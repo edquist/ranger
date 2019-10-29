@@ -5,8 +5,11 @@
 struct irange {
     // for an irange to be valid, safe to assume start < end
 
-    mutable int start;
+    int start;
     int end;
+
+    irange(int e) : start(0), end(e) {}
+    irange(int s, int e) : start(s), end(e) {}
 
     // assumes we use it in our disjoint context
     bool operator< (const irange &r2) const { return end < r2.end; }
@@ -96,7 +99,7 @@ ranger::mr_set_it ranger::add(irange r)
         return mr_set.insert(r).first;
 
     // NOTE: use upper_bound for fracturing
-    auto it_start = mr_set.lower_bound({r.start,r.start});
+    auto it_start = mr_set.lower_bound(r.start);
     if (it_start == mr_set.end())
         return mr_set.insert(r).first;
 
@@ -120,7 +123,7 @@ ranger::mr_set_it ranger::add(irange r)
 std::pair<ranger::mr_set_it, bool>
 ranger::find(int x)
 {
-    auto it = mr_set.upper_bound({x,x});
+    auto it = mr_set.upper_bound(x);
     return {it, it != mr_set.end() && it->start <= x};
 }
 
