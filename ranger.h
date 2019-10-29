@@ -37,7 +37,7 @@ struct ranger::range {
     int_type size() const { return end - start; }
     bool contains(int_type x) const { return start <= x && x < end; }
 
-    // assumes we use it in our disjoint context
+    // only for use in our disjoint ranger forest context
     bool operator< (const range &r2) const { return end < r2.end; }
 };
 
