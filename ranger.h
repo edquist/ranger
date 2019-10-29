@@ -38,6 +38,9 @@ struct ranger::range {
     // only for use in our disjoint ranger forest context
     bool operator< (const range &r2) const { return _end < r2._end; }
 
+    iterator begin() const { return _start; }
+    iterator end()   const { return _end;   }
+
     // data members
     int_type _start;
     int_type _end;
