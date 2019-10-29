@@ -18,16 +18,16 @@ struct irange {
 };
 
 struct ranger {
-    typedef std::set<irange>          mr_set_t;
-    typedef mr_set_t::iterator        mr_set_it;
-    typedef mr_set_t::const_iterator  mr_set_cit;
+    typedef std::set<irange>          set_type;
+    typedef set_type::iterator        iterator;
+    typedef set_type::const_iterator  const_iterator;
 
-    mr_set_t mr_set;
+    set_type mr_set;
 
-    mr_set_it add(irange r);
-    mr_set_it remove(irange r);
+    iterator add(irange r);
+    iterator remove(irange r);
 
-    std::pair<mr_set_it, bool> find(int x) const;
+    std::pair<iterator, bool> find(int x) const;
 
     bool contains(int x) const { return find(x).second; }
     bool empty() const         { return mr_set.empty(); }
@@ -35,7 +35,7 @@ struct ranger {
 };
 
 
-ranger::mr_set_it ranger::add(irange r)
+ranger::iterator ranger::add(irange r)
 {
     if (mr_set.empty())
         return mr_set.insert(r).first;
@@ -62,7 +62,7 @@ ranger::mr_set_it ranger::add(irange r)
     return mr_set.insert(hint, ir_new);
 }
 
-ranger::mr_set_it ranger::remove(irange r)
+ranger::iterator ranger::remove(irange r)
 {
     auto it_start = mr_set.upper_bound(r.start);
     if (it_start == mr_set.end())
@@ -90,7 +90,7 @@ ranger::mr_set_it ranger::remove(irange r)
     return hint;
 }
 
-std::pair<ranger::mr_set_it, bool>
+std::pair<ranger::iterator, bool>
 ranger::find(int x) const
 {
     auto it = mr_set.upper_bound(x);
