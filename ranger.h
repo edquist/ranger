@@ -38,8 +38,8 @@ struct ranger::range {
     // only for use in our disjoint ranger forest context
     bool operator< (const range &r2) const { return _end < r2._end; }
 
-    iterator begin() const { return _start; }
-    iterator end()   const { return _end;   }
+    inline iterator begin() const;
+    inline iterator end()   const;
 
     // data members
     int_type _start;
@@ -64,6 +64,9 @@ struct ranger::range::iterator {
 
     operator int_type()             const {      return i;     }
 };
+
+inline ranger::range::iterator ranger::range::begin() const { return _start; }
+inline ranger::range::iterator ranger::range::end()   const { return _end;   }
 
 std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
 std::ostream &operator<<(std::ostream &os, const ranger &r);
