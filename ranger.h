@@ -19,7 +19,6 @@ struct ranger {
     bool contains(int x) const { return find(x).second; }
     bool empty() const         { return forest.empty(); }
     void clear()               { forest.clear(); }
-
 };
 
 struct ranger::range {
