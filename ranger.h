@@ -1,22 +1,6 @@
 #include <set>
 #include <ostream>
 
-struct irange {
-    // for an irange to be valid, safe to assume start < end
-
-    int start;
-    int end;
-
-    irange(int e) : start(0), end(e) {}
-    irange(int s, int e) : start(s), end(e) {}
-
-    // assumes we use it in our disjoint context
-    bool operator< (const irange &r2) const { return end < r2.end; }
-
-    int size() const { return end - start; }
-    bool contains(int x) const { return start <= x && x < end; }
-};
-
 struct ranger {
     typedef std::set<irange>          set_type;
     typedef set_type::iterator        iterator;
@@ -32,6 +16,22 @@ struct ranger {
     bool contains(int x) const { return find(x).second; }
     bool empty() const         { return mr_set.empty(); }
     void clear()               { mr_set.clear(); }
+};
+
+struct irange {
+    // for an irange to be valid, safe to assume start < end
+
+    int start;
+    int end;
+
+    irange(int e) : start(0), end(e) {}
+    irange(int s, int e) : start(s), end(e) {}
+
+    // assumes we use it in our disjoint context
+    bool operator< (const irange &r2) const { return end < r2.end; }
+
+    int size() const { return end - start; }
+    bool contains(int x) const { return start <= x && x < end; }
 };
 
 
