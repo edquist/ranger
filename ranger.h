@@ -59,6 +59,8 @@ struct ranger::range::iterator {
     iterator &operator--()                { --i; return *this; }
     iterator  operator++(int)             {      return i++;   }
     iterator  operator--(int)             {      return i--;   }
+
+    operator int_type()             const {      return i;     }
 };
 
 std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
