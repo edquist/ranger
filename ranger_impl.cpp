@@ -22,12 +22,12 @@ ranger::iterator ranger::insert(ranger::range r)
         return forest.insert(it_end, r);
 
     iterator it_back = --it;
-    range ir_new = { std::min(it_start->start, r.start),
+    range rr_new = { std::min(it_start->start, r.start),
                      std::max(it_back->end, r.end) };
 
     iterator hint = forest.erase(it_start, it_end);
 
-    return forest.insert(hint, ir_new);
+    return forest.insert(hint, rr_new);
 }
 
 ranger::iterator ranger::erase(ranger::range r)
@@ -45,15 +45,15 @@ ranger::iterator ranger::erase(ranger::range r)
         return it_start;
 
     iterator it_back = --it;
-    range ir_start = *it_start;
-    range ir_back  = *it_back;
+    range rr_start = *it_start;
+    range rr_back  = *it_back;
 
     iterator hint = forest.erase(it_start, it_end);
-    if (ir_start.start < r.start)
-        hint = forest.insert(hint, {ir_start.start, r.start});
+    if (rr_start.start < r.start)
+        hint = forest.insert(hint, {rr_start.start, r.start});
 
-    if (r.end < ir_back.end)
-        hint = forest.insert(hint, {r.end, ir_back.end});
+    if (r.end < rr_back.end)
+        hint = forest.insert(hint, {r.end, rr_back.end});
 
     return hint;
 }
@@ -67,16 +67,16 @@ ranger::find(int_type x) const
 
 
 
-std::ostream &operator<<(std::ostream &os, const ranger::range &ir)
+std::ostream &operator<<(std::ostream &os, const ranger::range &rr)
 {
-    return os << '[' << ir.start << ',' << ir.end << ')';
+    return os << '[' << rr.start << ',' << rr.end << ')';
 }
 
 std::ostream &operator<<(std::ostream &os, const ranger &r)
 {
     os << "{";
-    for (ranger::range ir : r.forest)
-        os << " " << ir;
+    for (ranger::range rr : r.forest)
+        os << " " << rr;
     return os << " }";
 }
 
