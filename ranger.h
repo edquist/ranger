@@ -30,7 +30,7 @@ struct ranger {
     mr_set_t mr_set;
 
     mr_set_it add(irange r);  // -->  operator|
-    void remove(irange r);    // -->  operator-
+    mr_set_it remove(irange r);
 
     bool contains(int x);
     bool contains(irange r);  // ?
@@ -64,6 +64,34 @@ ranger::mr_set_it ranger::add(irange r)
     auto hint = mr_set.erase(it_start, it_end);
 
     return mr_set.insert(hint, ir_new);
+}
+
+ranger::mr_set_it ranger::remove(irange r)
+{
+    auto it_start = mr_set.upper_bound(r.start);
+    if (it_start == mr_set.end())
+        return it_start;
+
+    auto it = it_start;
+    while (it != mr_set.end() && it->start < r.end)
+        ++it;
+
+    auto it_end = it;
+    if (it_start == it_end)
+        return it_start;
+
+    auto it_back = --it;
+    irange ir_start = *it_start;
+    irange ir_back  = *it_back;
+
+    auto hint = mr_set.erase(it_start, it_end);
+    if (ir_start.start < r.start)
+        hint = mr_set.insert(hint, {ir_start.start, r.start});
+
+    if (r.end < ir_back.end)
+        hint = mr_set.insert(hint, {r.end, ir_back.end});
+
+    return hint;
 }
 
 std::pair<ranger::mr_set_it, bool>
