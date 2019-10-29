@@ -24,23 +24,23 @@ struct ranger {
 };
 
 struct ranger::range {
-    // for a range to be valid, safe to assume start < end
+    // for a range to be valid, safe to assume start < _end
 
     struct iterator;
     typedef ranger::int_type int_type;
 
-    range(int_type e) : start(0), end(e) {}
-    range(int_type s, int_type e) : start(s), end(e) {}
+    range(int_type e) : start(0), _end(e) {}
+    range(int_type s, int_type e) : start(s), _end(e) {}
 
-    int_type size()           const { return end - start; }
-    bool contains(int_type x) const { return start <= x && x < end; }
+    int_type size()           const { return _end - start; }
+    bool contains(int_type x) const { return start <= x && x < _end; }
 
     // only for use in our disjoint ranger forest context
-    bool operator< (const range &r2) const { return end < r2.end; }
+    bool operator< (const range &r2) const { return _end < r2._end; }
 
     // data members
     int_type start;
-    int_type end;
+    int_type _end;
 };
 
 struct ranger::range::iterator {
