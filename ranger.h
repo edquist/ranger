@@ -9,8 +9,8 @@ struct ranger {
 
     set_type mr_set;
 
-    iterator add(range r);
-    iterator remove(range r);
+    iterator insert(range r);
+    iterator erase(range r);
 
     std::pair<iterator, bool> find(int x) const;
 
@@ -36,7 +36,7 @@ struct ranger::range {
 };
 
 
-ranger::iterator ranger::add(ranger::range r)
+ranger::iterator ranger::insert(ranger::range r)
 {
     if (mr_set.empty())
         return mr_set.insert(r).first;
@@ -63,7 +63,7 @@ ranger::iterator ranger::add(ranger::range r)
     return mr_set.insert(hint, ir_new);
 }
 
-ranger::iterator ranger::remove(ranger::range r)
+ranger::iterator ranger::erase(ranger::range r)
 {
     auto it_start = mr_set.upper_bound(r.start);
     if (it_start == mr_set.end())

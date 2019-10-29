@@ -7,9 +7,9 @@ int main()
 {
     ranger r;
 
-    r.add({10,20});
-    r.add({50,60});
-    r.add({30,40});
+    r.insert({10,20});
+    r.insert({50,60});
+    r.insert({30,40});
 
     std::cout << r << "\n";
 
@@ -30,7 +30,7 @@ int main()
     }; 
     for (ranger::range ir : vir) {
         ranger r2 = r;
-        r2.add(ir);
+        r2.insert(ir);
         std::cout << " + " << ir << " -> " << r2 << "\n";
     }
 }
