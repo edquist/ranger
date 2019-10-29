@@ -106,17 +106,15 @@ ranger::mr_set_it ranger::add(irange r)
 
     auto it_end = it;
     if (it_start == it_end)
-        // TODO: use it_end as hint
-        return mr_set.insert(r).first;
-    auto it_back = --it;
+        return mr_set.insert(it_end, r);
 
+    auto it_back = --it;
     irange ir_new = { std::min(it_start->start, r.start),
                       std::max(it_back->end, r.end) };
 
     auto hint = mr_set.erase(it_start, it_end);
 
-    // TODO: use hint
-    return mr_set.insert(ir_new).first;
+    return mr_set.insert(hint, ir_new);
 }
 
 std::pair<ranger::mr_set_it, bool>
