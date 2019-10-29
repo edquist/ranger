@@ -1,4 +1,3 @@
-
 #include <set>
 #include <ostream>
 
@@ -18,10 +17,6 @@ struct irange {
     bool contains(int x) const { return start <= x && x < end; }
 };
 
-// Or...
-inline bool irange_set_cmp(const irange &r1, const irange &r2)
-{ return r1.end < r2.end; }
-
 struct ranger {
     typedef std::set<irange>          mr_set_t;
     typedef mr_set_t::iterator        mr_set_it;
@@ -29,13 +24,14 @@ struct ranger {
 
     mr_set_t mr_set;
 
-    mr_set_it add(irange r);  // -->  operator|
+    mr_set_it add(irange r);
     mr_set_it remove(irange r);
 
-    bool contains(int x);
-    bool contains(irange r);  // ?
+    std::pair<mr_set_it, bool> find(int x) const;
 
-    std::pair<mr_set_it, bool> find(int x);
+    bool contains(int x) const { return find(x).second; }
+    bool empty() const         { return mr_set.empty(); }
+    void clear()               { mr_set.clear(); }
 };
 
 
@@ -95,15 +91,10 @@ ranger::mr_set_it ranger::remove(irange r)
 }
 
 std::pair<ranger::mr_set_it, bool>
-ranger::find(int x)
+ranger::find(int x) const
 {
     auto it = mr_set.upper_bound(x);
     return {it, it != mr_set.end() && it->start <= x};
-}
-
-bool ranger::contains(int x)
-{
-    return find(x).second;
 }
 
 
