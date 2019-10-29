@@ -59,7 +59,7 @@ ranger::iterator ranger::erase(ranger::range r)
 }
 
 std::pair<ranger::iterator, bool>
-ranger::find(int x) const
+ranger::find(int_type x) const
 {
     auto it = forest.upper_bound(x);
     return {it, it != forest.end() && it->start <= x};

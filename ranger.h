@@ -5,6 +5,7 @@
 
 struct ranger {
     struct range;
+    typedef int                       int_type;
     typedef std::set<range>           set_type;
     typedef set_type::iterator        iterator;
     typedef set_type::const_iterator  const_iterator;
@@ -14,9 +15,9 @@ struct ranger {
     iterator insert(range r);
     iterator erase(range r);
 
-    std::pair<iterator, bool> find(int x) const;
+    std::pair<iterator, bool> find(int_type x) const;
 
-    bool contains(int x) const { return find(x).second; }
+    bool contains(int_type x) const { return find(x).second; }
     bool empty() const         { return forest.empty(); }
     void clear()               { forest.clear(); }
 };
@@ -24,17 +25,19 @@ struct ranger {
 struct ranger::range {
     // for a range to be valid, safe to assume start < end
 
-    int start;
-    int end;
+    typedef ranger::int_type int_type;
 
-    range(int e) : start(0), end(e) {}
-    range(int s, int e) : start(s), end(e) {}
+    int_type start;
+    int_type end;
+
+    range(int_type e) : start(0), end(e) {}
+    range(int_type s, int_type e) : start(s), end(e) {}
 
     // assumes we use it in our disjoint context
     bool operator< (const range &r2) const { return end < r2.end; }
 
-    int size() const { return end - start; }
-    bool contains(int x) const { return start <= x && x < end; }
+    int_type size() const { return end - start; }
+    bool contains(int_type x) const { return start <= x && x < end; }
 };
 
 
