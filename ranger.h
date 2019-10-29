@@ -10,8 +10,6 @@ struct ranger {
     typedef set_type::iterator        iterator;
     typedef set_type::const_iterator  const_iterator;
 
-    set_type forest;
-
     iterator insert(range r);
     iterator erase(range r);
 
@@ -20,6 +18,9 @@ struct ranger {
     bool contains(int_type x) const { return find(x).second; }
     bool empty() const         { return forest.empty(); }
     void clear()               { forest.clear(); }
+
+    // private:
+    set_type forest;
 };
 
 struct ranger::range {
