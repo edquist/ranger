@@ -1,0 +1,63 @@
+
+struct irange {
+    int start, end;
+    bool operator<(const irange &r2) const { return end < r2.end; }
+}
+
+struct ranger { std::set<irange> mr_set; }
+
+when adding a range, rn, want to consider each irange member, ir, such that:
+
+                rn.start <= ir.end
+        and
+                rn.end <= ir.start  [ < ir.end ]
+
+two searches can be done, or one and then walk forward, to find this
+range of ir members.  Let's call the ends of this range
+
+                irit_start
+                irit_end
+
+        and, if irit_start != irit_end,
+
+                --(irit_back = irit_end)
+
+That is, irit_start is the first element in the desired range,
+irit_back is the final element, and irit_end is one past it.
+
+Alternatively, we'd end up with something like:
+
+                irit_back = irit_end++
+
+
+Anyway, with these, create a new irange (but don't insert it immediately)
+
+                ir_new = irit_start == irit_end ? rn :
+                         {
+                            std::min(irit_start->start, rn.start),
+                            std::max(irit_back->end, rn.end)
+                         }
+
+Then, erase the range [irit_start, irit_end),
+
+and insert ir_new at the hint position returned by erase
+(which should be the same as irit_end)
+
+That's if you want to actively coelesce adjacent ranges with no gaps.
+
+If you perhaps don't want this (but want to allow fracturing), the
+original range to consider could be changed to strictly less-than:
+
+                rn.start < ir.end
+        and
+                rn.end < ir.start
+
+....
+
+theoretically, it should be safe to erase (say) only [irit_start, irit_back)
+(instead of [irit_start, irit_end)), to keep *irit_back and update it,
+rather than erase it and then insert a new one.  Even though the thing being
+sorted is getting updated, nevertheless the sort position will remain the
+same so it shouldn't break anything about the data structure.
+
+
