@@ -9,7 +9,7 @@ struct ranger {
     typedef set_type::iterator        iterator;
     typedef set_type::const_iterator  const_iterator;
 
-    set_type mr_set;
+    set_type forest;
 
     iterator insert(range r);
     iterator erase(range r);
@@ -17,8 +17,8 @@ struct ranger {
     std::pair<iterator, bool> find(int x) const;
 
     bool contains(int x) const { return find(x).second; }
-    bool empty() const         { return mr_set.empty(); }
-    void clear()               { mr_set.clear(); }
+    bool empty() const         { return forest.empty(); }
+    void clear()               { forest.clear(); }
 
 };
 
