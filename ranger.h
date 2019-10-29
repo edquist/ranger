@@ -2,14 +2,15 @@
 #include <ostream>
 
 struct ranger {
-    typedef std::set<irange>          set_type;
+    struct range;
+    typedef std::set<range>           set_type;
     typedef set_type::iterator        iterator;
     typedef set_type::const_iterator  const_iterator;
 
     set_type mr_set;
 
-    iterator add(irange r);
-    iterator remove(irange r);
+    iterator add(range r);
+    iterator remove(range r);
 
     std::pair<iterator, bool> find(int x) const;
 
@@ -18,24 +19,24 @@ struct ranger {
     void clear()               { mr_set.clear(); }
 };
 
-struct irange {
-    // for an irange to be valid, safe to assume start < end
+struct ranger::range {
+    // for a range to be valid, safe to assume start < end
 
     int start;
     int end;
 
-    irange(int e) : start(0), end(e) {}
-    irange(int s, int e) : start(s), end(e) {}
+    range(int e) : start(0), end(e) {}
+    range(int s, int e) : start(s), end(e) {}
 
     // assumes we use it in our disjoint context
-    bool operator< (const irange &r2) const { return end < r2.end; }
+    bool operator< (const range &r2) const { return end < r2.end; }
 
     int size() const { return end - start; }
     bool contains(int x) const { return start <= x && x < end; }
 };
 
 
-ranger::iterator ranger::add(irange r)
+ranger::iterator ranger::add(ranger::range r)
 {
     if (mr_set.empty())
         return mr_set.insert(r).first;
@@ -54,15 +55,15 @@ ranger::iterator ranger::add(irange r)
         return mr_set.insert(it_end, r);
 
     auto it_back = --it;
-    irange ir_new = { std::min(it_start->start, r.start),
-                      std::max(it_back->end, r.end) };
+    range ir_new = { std::min(it_start->start, r.start),
+                     std::max(it_back->end, r.end) };
 
     auto hint = mr_set.erase(it_start, it_end);
 
     return mr_set.insert(hint, ir_new);
 }
 
-ranger::iterator ranger::remove(irange r)
+ranger::iterator ranger::remove(ranger::range r)
 {
     auto it_start = mr_set.upper_bound(r.start);
     if (it_start == mr_set.end())
@@ -77,8 +78,8 @@ ranger::iterator ranger::remove(irange r)
         return it_start;
 
     auto it_back = --it;
-    irange ir_start = *it_start;
-    irange ir_back  = *it_back;
+    range ir_start = *it_start;
+    range ir_back  = *it_back;
 
     auto hint = mr_set.erase(it_start, it_end);
     if (ir_start.start < r.start)
@@ -99,7 +100,7 @@ ranger::find(int x) const
 
 
 
-std::ostream &operator<<(std::ostream &os, const irange &ir)
+std::ostream &operator<<(std::ostream &os, const ranger::range &ir)
 {
     return os << '[' << ir.start << ',' << ir.end << ')';
 }
