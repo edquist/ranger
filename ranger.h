@@ -51,14 +51,14 @@ struct ranger::range::iterator {
     iterator() : i(0) {}
     iterator(int_type n) : i(n) {}
 
-    int_type &operator*()                 { return i; }
-    int_type  operator*()           const { return i; }
-    iterator  operator+(int_type n) const { return i+n; }
-    iterator  operator-(int_type n) const { return i-n; }
+    int_type &operator*()                 {      return i;     }
+    int_type  operator*()           const {      return i;     }
+    iterator  operator+(int_type n) const {      return i+n;   }
+    iterator  operator-(int_type n) const {      return i-n;   }
     iterator &operator++()                { ++i; return *this; }
     iterator &operator--()                { --i; return *this; }
-    iterator  operator++(int)             { return i++; }
-    iterator  operator--(int)             { return i--; }
+    iterator  operator++(int)             {      return i++;   }
+    iterator  operator--(int)             {      return i--;   }
 };
 
 std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
