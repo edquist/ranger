@@ -5,13 +5,13 @@ ranger::iterator ranger::insert(ranger::range r)
     if (forest.empty())
         return forest.insert(r).first;
 
-    // NOTE: use upper_bound for fracturing (ie, not to coalesce)
+    // NOTE: use upper_bound here if you don't want to coalesce
     iterator it_start = forest.lower_bound(r.start);
     if (it_start == forest.end())
         return forest.insert(r).first;
 
     iterator it = it_start;
-    while (it != forest.end() && it->start <= r.end)  // '<' for fracturing
+    while (it != forest.end() && it->start <= r.end)  // '<' for no coalesce
         ++it;
 
     iterator it_end = it;
