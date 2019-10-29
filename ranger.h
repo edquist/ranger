@@ -34,11 +34,11 @@ struct ranger::range {
     range(int_type e) : start(0), end(e) {}
     range(int_type s, int_type e) : start(s), end(e) {}
 
-    // assumes we use it in our disjoint context
-    bool operator< (const range &r2) const { return end < r2.end; }
-
     int_type size() const { return end - start; }
     bool contains(int_type x) const { return start <= x && x < end; }
+
+    // assumes we use it in our disjoint context
+    bool operator< (const range &r2) const { return end < r2.end; }
 };
 
 
