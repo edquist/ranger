@@ -5,7 +5,7 @@
 struct irange {
     // for an irange to be valid, safe to assume start < end
 
-    int start;
+    mutable int start;
     int end;
 
     // assumes we use it in our disjoint context
@@ -26,31 +26,109 @@ struct ranger {
 
     mr_set_t mr_set;
 
-    void add(irange r);       // -->  operator|
+    mr_set_it add(irange r);  // -->  operator|
     void remove(irange r);    // -->  operator-
 
     bool contains(int x);
     bool contains(irange r);  // ?
 
-    std::pair<bool, mr_set_it> find(int x);
+    std::pair<mr_set_it, bool> find(int x);
 };
 
-void ranger::add(irange r)
+
+/* The cases are:
+
+          [====)      [====)      [====)
+                                 
+          |    |      |    |      |    |
+  [  )    |    |
+  [       )
+  [       | )  |
+  [       |    )
+  [       |    | )    |
+  [       |    |      )
+  [       |    |      | )  |
+  [       |    |      |    )
+  [       |    |      |    | )    |
+  [       |    |      |    |      )    |
+  [       |    |      |    |      | )  |
+  [       |    |      |    |      |    )
+  [       |    |      |    |      |    | )
+          [ )  |      |    |      |    |
+          [    )      |    |      |    |
+          [    | )    |    |      |    |
+          [    |      )    |      |    |
+          [    |      | )  |      |    |
+          [    |      |    )      |    |
+          [    |      |    | )    |    |
+          [    |      |    |      )    |
+          [    |      |    |      | )  |
+          [    |      |    |      |    )
+          [    |      |    |      |    | )
+          | [) |      |    |      |    |
+          | [  |      |    |      |    |
+          | [  )      |    |      |    |
+          | [  | )    |    |      |    |
+          | [  |      )    |      |    |
+          | [  |      | )  |      |    |
+          | [  |      |    )      |    |
+          | [  |      |    | )    |    |
+          | [  |      |    |      )    |
+          | [  |      |    |      | )  |
+          | [  |      |    |      |    )
+          | [  |      |    |      |    | )
+          |    [ )    |    |      |    |
+          |    [      )    |      |    |
+          |    [      | )  |      |    |
+          |    [      |    )      |    |
+          |    [      |    | )    |    |
+          |    [      |    |      )    |
+          |    [      |    |      | )  |
+          |    [      |    |      |    )
+          |    [      |    |      |    | )
+          |    |      |    |      |    |
+          |    |      |    |      |    |
+*/
+
+ranger::mr_set_it ranger::add(irange r)
 {
-    auto rs = find(r.start);
-    auto re = find(r.end);
+    if (mr_set.empty())
+        return mr_set.insert(r).first;
+
+    // NOTE: use upper_bound for fracturing
+    auto it_start = mr_set.lower_bound({r.start,r.start});
+    if (it_start == mr_set.end())
+        return mr_set.insert(r).first;
+
+    auto it = it_start;
+    while (it != mr_set.end() && it->start < r.end)  // '<=' for fracturing
+        ++it;
+
+    auto it_end = it;
+    if (it_start == it_end)
+        // TODO: use it_end as hint
+        return mr_set.insert(r).first;
+    auto it_back = --it;
+
+    irange ir_new = { std::min(it_start->start, r.start),
+                      std::max(it_back->end, r.end) };
+
+    auto hint = mr_set.erase(it_start, it_end);
+
+    // TODO: use hint
+    return mr_set.insert(ir_new).first;
 }
 
-std::pair<bool, ranger::mr_set_it>
+std::pair<ranger::mr_set_it, bool>
 ranger::find(int x)
 {
     auto it = mr_set.upper_bound({x,x});
-    return {it != mr_set.end() && it->start <= x, it};
+    return {it, it != mr_set.end() && it->start <= x};
 }
 
 bool ranger::contains(int x)
 {
-    return find(x).first;
+    return find(x).second;
 }
 
 
