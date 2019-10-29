@@ -1,6 +1,3 @@
-#include <set>
-#include <ostream>
-
 #include "ranger.h"
 
 ranger::iterator ranger::insert(ranger::range r)
@@ -66,6 +63,8 @@ ranger::find(int_type x) const
 }
 
 
+
+#include <ostream>
 
 std::ostream &operator<<(std::ostream &os, const ranger::range &rr)
 {
