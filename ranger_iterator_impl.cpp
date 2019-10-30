@@ -8,6 +8,14 @@
  */
 
 
+void ranger::iterator::mk_valid()
+{
+    if (!rit_valid) {
+        rit = sit->begin();
+        rit_valid = true;
+    }
+}
+
 ranger::int_type ranger::iterator::operator*()
 {
     mk_valid();
@@ -51,13 +59,5 @@ bool ranger::iterator::operator==(iterator &it)
 bool ranger::iterator::operator!=(iterator &it)
 {
     return !(*this == it);
-}
-
-void ranger::iterator::mk_valid()
-{
-    if (!rit_valid) {
-        rit = sit->begin();
-        rit_valid = true;
-    }
 }
 
