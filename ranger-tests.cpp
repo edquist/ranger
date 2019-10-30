@@ -17,13 +17,36 @@ int main()
         std::cout << "contains " << x << " ?  "
                   << (r.contains(x) ? "yes" : "no") << "\n";
 
-    std::cout << "\n---\n";
-    std::cout << "\n";
+
+    ////////////////
+
+
+    std::cout << "\n---\n\n";
     ranger::range rr1 = {5, 10};
     std::cout << "Printing range " << rr1 << ":";
-    for (auto i : rr1)
+    for (int i : rr1)
         std::cout << " " << i;
     std::cout << "\n";
+
+
+    ////////////////
+
+
+    ranger rz;
+
+    rz.insert({5,10});
+    rz.insert({12,17});
+    rz.insert({30,34});
+
+    std::cout << "\n---\n\n";
+    std::cout << "Printing ranger " << rz << "\n";
+    std::cout << ":";
+    for (int i : rz)
+        std::cout << " " << i;
+    std::cout << "\n";
+
+
+    ////////////////
 
 
     std::cout << "\n---\n";
