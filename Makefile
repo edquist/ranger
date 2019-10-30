@@ -6,8 +6,8 @@ ALL = set-lb-ub ranger-tests ranger-explorer
 
 all: $(ALL)
 
-RANGER.HDRS = ranger.h
-RANGER.SRCS = ranger_impl.cpp ranger_iterator_impl.cpp
+RANGER.HDRS = ranger.h ranger_ostream.h
+RANGER.SRCS = ranger_impl.cpp ranger_iterator_impl.cpp ranger_ostream.cpp
 RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< $(RANGER.SRCS) -o $@
 
 ranger-tests: ranger-tests.cpp $(RANGER.SRCS) $(RANGER.HDRS)

@@ -63,19 +63,3 @@ ranger::ranger(const std::initializer_list<ranger::range> &il)
         insert(rr);
 }
 
-
-#include <ostream>
-
-std::ostream &operator<<(std::ostream &os, const ranger::range &rr)
-{
-    return os << '[' << rr._start << ',' << rr._end << ')';
-}
-
-std::ostream &operator<<(std::ostream &os, const ranger &r)
-{
-    os << "{";
-    for (ranger::range rr : r.forest)
-        os << " " << rr;
-    return os << " }";
-}
-

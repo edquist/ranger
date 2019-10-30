@@ -25,8 +25,6 @@ struct ranger {
     inline iterator begin() const;
     inline iterator end()   const;
 
-    friend std::ostream &operator<<(std::ostream &os, const ranger &r);
-
     // the state of our ranger
     set_type forest;
 };
@@ -48,8 +46,6 @@ struct ranger::range {
 
     inline iterator begin() const;
     inline iterator end()   const;
-
-    friend std::ostream &operator<<(std::ostream &os, const range &rr);
 
     // data members; a valid range in ranger forest context has _start < _end
     int_type _start;

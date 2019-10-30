@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ranger.h"
+#include "ranger_ostream.h"
 
 void demo1()
 {
