@@ -1,5 +1,13 @@
 #include "ranger.h"
 
+/* Frankly, the user would be better served by the tremendously simpler:
+ *
+ *      for (auto &rr : myranger.forest)
+ *          for (int i : rr)
+ *              process_int(i);
+ */
+
+
 ranger::int_type ranger::iterator::operator*()
 {
     mk_valid();
@@ -33,6 +41,8 @@ bool ranger::iterator::operator==(iterator &it)
         return false;
     if (!rit_valid && !it.rit_valid)
         return true;
+    // at this point neither sit nor it.sit points to the end() of its set,
+    // thus it's OK to call mk_valid() on each, which may dereference *sit
     mk_valid();
     it.mk_valid();
     return rit == it.rit;
