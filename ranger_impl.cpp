@@ -2,7 +2,8 @@
 
 ranger::set_iterator ranger::insert(ranger::range r)
 {
-    // NOTE: use upper_bound here if you don't want to coalesce
+    // lower_bound here will coalesce an adjacent disjoint range;
+    // can use upper_bound instead to avoid this and leave them fractured
     set_iterator it_start = forest.lower_bound(r._start);
     set_iterator it = it_start;
     while (it != forest.end() && it->_start <= r._end)  // '<' for no coalesce
