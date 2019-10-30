@@ -42,7 +42,7 @@ struct ranger::range {
     inline iterator begin() const;
     inline iterator end()   const;
 
-    // data members; for a range to be valid, safe to assume _start < _end
+    // data members; a valid range in ranger forest context has _start < _end
     int_type _start;
     int_type _end;
 };
