@@ -16,7 +16,7 @@ void ranger::iterator::mk_valid()
     }
 }
 
-ranger::int_type ranger::iterator::operator*()
+ranger::value_type ranger::iterator::operator*()
 {
     mk_valid();
     return *rit;

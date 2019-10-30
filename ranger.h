@@ -6,7 +6,7 @@
 struct ranger {
     struct range;
     struct iterator;
-    typedef int                 int_type;
+    typedef int                 value_type;
     typedef std::set<range>     set_type;
     typedef set_type::iterator  set_iterator;
 
@@ -16,10 +16,10 @@ struct ranger {
     set_iterator insert(range r);
     set_iterator erase(range r);
 
-    std::pair<set_iterator, bool> find(int_type x) const;
+    std::pair<set_iterator, bool> find(value_type x) const;
 
-    bool contains(int_type x) const { return find(x).second; }
-    bool empty()              const { return forest.empty(); }
+    bool contains(value_type x) const { return find(x).second; }
+    bool empty()                const { return forest.empty(); }
     void clear()                    { forest.clear(); }
 
     inline iterator begin() const;
@@ -31,13 +31,13 @@ struct ranger {
 
 struct ranger::range {
     struct iterator;
-    typedef ranger::int_type int_type;
+    typedef ranger::value_type value_type;
 
-    range(int_type e) : _start(0), _end(e) {}
-    range(int_type s, int_type e) : _start(s), _end(e) {}
+    range(value_type e) : _start(0), _end(e) {}
+    range(value_type s, value_type e) : _start(s), _end(e) {}
 
-    int_type size()           const { return _end - _start; }
-    bool contains(int_type x) const { return _start <= x && x < _end; }
+    value_type size()             const { return _end - _start; }
+    bool contains(value_type x)   const { return _start <= x && x < _end; }
     bool contains(const range &r) const
     { return _start <= r._start && r._end < _end; }
 
@@ -48,39 +48,36 @@ struct ranger::range {
     inline iterator end()   const;
 
     // data members; a valid range in ranger forest context has _start < _end
-    mutable int_type _start;
-    mutable int_type _end;
+    mutable value_type _start;
+    mutable value_type _end;
 };
 
 struct ranger::range::iterator {
-    typedef ranger::int_type int_type;
-    typedef int_type         value_type;
+    typedef ranger::value_type value_type;
 
     iterator() : i(0) {}
-    iterator(int_type n) : i(n) {}
+    iterator(value_type n) : i(n) {}
 
-    int_type  operator*()           const {      return i;     }
-    iterator  operator+(int_type n) const {      return i+n;   }
-    iterator  operator-(int_type n) const {      return i-n;   }
-    iterator &operator++()                { ++i; return *this; }
-    iterator &operator--()                { --i; return *this; }
-    iterator  operator++(int)             {      return i++;   }
-    iterator  operator--(int)             {      return i--;   }
+    value_type  operator*()             const {      return i;     }
+    iterator    operator+(value_type n) const {      return i+n;   }
+    iterator    operator-(value_type n) const {      return i-n;   }
+    iterator   &operator++()                  { ++i; return *this; }
+    iterator   &operator--()                  { --i; return *this; }
+    iterator    operator++(int)               {      return i++;   }
+    iterator    operator--(int)               {      return i--;   }
 
     // takes care of rel ops :D
-    operator int_type()             const {      return i;     }
+    operator value_type()               const {      return i;     }
 
     // this is both the iterator "position" and the value
-    int_type i;
+    value_type i;
 };
 
 struct ranger::iterator {
-    typedef int_type value_type;
-
     iterator(set_iterator si) : sit(si), rit_valid(0) {}
     iterator() : rit_valid(0) {}
 
-    int_type operator*();
+    value_type operator*();
     iterator &operator++();
     iterator &operator--();
     bool operator==(iterator &it);
