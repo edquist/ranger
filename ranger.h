@@ -51,8 +51,6 @@ struct ranger::range::iterator {
     typedef ranger::int_type int_type;
     typedef int_type         value_type;
 
-    int_type i;
-
     iterator() : i(0) {}
     iterator(int_type n) : i(n) {}
 
@@ -66,6 +64,9 @@ struct ranger::range::iterator {
 
     // takes care of rel ops :D
     operator int_type()             const {      return i;     }
+
+    // this is both the iterator "position" and the value
+    int_type i;
 };
 
 inline ranger::range::iterator ranger::range::begin() const { return _start; }
