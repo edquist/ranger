@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 #include "ranger.h"
 
@@ -56,7 +55,7 @@ int main()
     std::cout << "Arithmetic on: " << r << "\n";
     std::cout << "\n";
 
-    std::vector<int> ints = {
+    auto ints = {
          8, 9,10,11,12,
         18,19,20,21,22,
         28,29,30,31,32,
