@@ -11,7 +11,7 @@ void persist(std::string &s, const ranger &r)
 
     for (auto &rr : r.forest)
         if (rr._start == rr._end - 1)
-            formatstr_cat(s, "%d", rr._start);
+            formatstr_cat(s, "%d;", rr._start);
         else
             formatstr_cat(s, "%d-%d;", rr._start, rr._end - 1);
 
