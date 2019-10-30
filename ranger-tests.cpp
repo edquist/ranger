@@ -43,6 +43,11 @@ int main()
     std::cout << ":";
     for (int i : rz)
         std::cout << " " << i;
+    /* same as:
+     *  for (auto &rr : rz.forest)
+     *      for (int i : rr)
+     *          std::cout << " " << i;
+     */
     std::cout << "\n";
 
 
