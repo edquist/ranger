@@ -53,6 +53,11 @@ ranger::find(int_type x) const
     return {it, it != forest.end() && it->_start <= x};
 }
 
+ranger::ranger(const std::initializer_list<ranger::range> &il)
+{
+    for (const range &rr : il)
+        insert(rr);
+}
 
 
 #include <ostream>

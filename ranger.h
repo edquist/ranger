@@ -10,6 +10,9 @@ struct ranger {
     typedef std::set<range>     set_type;
     typedef set_type::iterator  set_iterator;
 
+    ranger() {};
+    ranger(const std::initializer_list<range> &il);
+
     set_iterator insert(range r);
     set_iterator erase(range r);
 

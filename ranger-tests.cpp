@@ -32,11 +32,8 @@ int main()
     ////////////////
 
 
-    ranger rz;
-
-    rz.insert({5,10});
-    rz.insert({12,17});
-    rz.insert({30,34});
+    // initializer list construction
+    ranger rz = { {5,10}, {12,17}, {30,34} };
 
     std::cout << "\n---\n\n";
     std::cout << "Printing ranger " << rz << "\n";
