@@ -1,7 +1,6 @@
 #pragma once
 
 #include <set>
-#include <iosfwd>
 
 struct ranger {
     struct range;
