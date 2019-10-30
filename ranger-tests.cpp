@@ -2,7 +2,7 @@
 
 #include "ranger.h"
 
-int main()
+void demo1()
 {
     ranger r;
 
@@ -15,26 +15,24 @@ int main()
     for (int x = 5; x < 70; x += 5)
         std::cout << "contains " << x << " ?  "
                   << (r.contains(x) ? "yes" : "no") << "\n";
+}
 
 
-    ////////////////
-
-
-    std::cout << "\n---\n\n";
+void demo2()
+{
     ranger::range rr1 = {5, 10};
     std::cout << "Printing range " << rr1 << ":";
     for (int i : rr1)
         std::cout << " " << i;
     std::cout << "\n";
+}
 
 
-    ////////////////
-
-
+void demo3()
+{
     // initializer list construction
     ranger rz = { {5,10}, {12,17}, {30,34} };
 
-    std::cout << "\n---\n\n";
     std::cout << "Printing ranger " << rz << "\n";
     std::cout << ":";
     for (int i : rz)
@@ -45,13 +43,13 @@ int main()
      *          std::cout << " " << i;
      */
     std::cout << "\n";
+}
 
 
-    ////////////////
+void demo4()
+{
+    ranger r = { {10,20}, {50,60}, {30,40} };
 
-
-    std::cout << "\n---\n";
-    std::cout << "\n";
     std::cout << "Arithmetic on: " << r << "\n";
     std::cout << "\n";
 
@@ -73,5 +71,20 @@ int main()
         r2.insert(rr);
         std::cout << " + " << rr << " -> " << r2 << "\n";
     }
+}
+
+
+void breaker()
+{
+    std::cout << "\n---\n\n";
+}
+
+
+int main()
+{
+    demo1(); breaker();
+    demo2(); breaker();
+    demo3(); breaker();
+    demo4();
 }
 
