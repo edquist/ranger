@@ -48,8 +48,8 @@ struct ranger::range {
     inline iterator end()   const;
 
     // data members; a valid range in ranger forest context has _start < _end
-    int_type _start;
-    int_type _end;
+    mutable int_type _start;
+    mutable int_type _end;
 };
 
 struct ranger::range::iterator {
