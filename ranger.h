@@ -69,13 +69,6 @@ struct ranger::range::iterator {
     int_type i;
 };
 
-inline ranger::range::iterator ranger::range::begin() const { return _start; }
-inline ranger::range::iterator ranger::range::end()   const { return _end;   }
-
-std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
-std::ostream &operator<<(std::ostream &os, const ranger &r);
-
-
 struct ranger::iterator {
     typedef int_type value_type;
 
@@ -96,6 +89,13 @@ struct ranger::iterator {
     bool rit_valid;
 };
 
+
 inline ranger::iterator ranger::begin() const { return forest.begin(); }
 inline ranger::iterator ranger::end()   const { return forest.end();   }
+
+inline ranger::range::iterator ranger::range::begin() const { return _start; }
+inline ranger::range::iterator ranger::range::end()   const { return _end;   }
+
+std::ostream &operator<<(std::ostream &os, const ranger::range &ir);
+std::ostream &operator<<(std::ostream &os, const ranger &r);
 
