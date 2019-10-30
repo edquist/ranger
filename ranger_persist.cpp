@@ -13,7 +13,7 @@ void persist(std::string &s, const ranger &r)
         if (rr._start == rr._end - 1)
             formatstr_cat(s, "%d", rr._start);
         else
-            formatstr_cat(s, "%d-%d;", rr._start, rr._end);
+            formatstr_cat(s, "%d-%d;", rr._start, rr._end - 1);
 
     s.erase(s.size() - 1);
 }
