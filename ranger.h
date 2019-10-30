@@ -81,48 +81,14 @@ struct ranger::iterator {
     iterator(set_iterator si) : sit(si), rit_valid(0) {}
     iterator() : rit_valid(0) {}
 
-    int_type operator*() {
-        mk_valid();
-        return *rit;
-    }
-
-    iterator &operator++() {
-        mk_valid();
-        if (++rit == sit->end()) {
-            ++sit;
-            rit_valid = false;
-        }
-        return *this;
-    }
-
-    iterator &operator--() {
-        mk_valid();
-        if (rit == sit->begin()) {
-            --sit;
-            rit = sit->end();
-            --rit;
-        }
-        return *this;
-    }
-
-    bool operator==(iterator &it) {
-        if (sit != it.sit)
-            return false;
-        if (!rit_valid && !it.rit_valid)
-            return true;
-        mk_valid();
-        it.mk_valid();
-        return rit == it.rit;
-    }
-    bool operator!=(iterator &it) { return !(*this == it); }
+    int_type operator*();
+    iterator &operator++();
+    iterator &operator--();
+    bool operator==(iterator &it);
+    bool operator!=(iterator &it);
 
     private:
-    void mk_valid() {
-        if (!rit_valid) {
-            rit = sit->begin();
-            rit_valid = true;
-        }
-    }
+    void mk_valid();
 
     set_iterator sit;
     range::iterator rit;

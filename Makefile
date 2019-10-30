@@ -6,12 +6,14 @@ ALL = set-lb-ub ranger-tests ranger-explorer
 
 all: $(ALL)
 
-RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< ranger_impl.cpp -o $@
+RANGER.HDRS = ranger.h
+RANGER.SRCS = ranger_impl.cpp ranger_iterator_impl.cpp
+RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< $(RANGER.SRCS) -o $@
 
-ranger-tests: ranger-tests.cpp ranger_impl.cpp ranger.h
+ranger-tests: ranger-tests.cpp $(RANGER.SRCS) $(RANGER.HDRS)
 	$(RANGER.COMP)
 
-ranger-explorer: ranger-explorer.cpp ranger_impl.cpp ranger.h
+ranger-explorer: ranger-explorer.cpp $(RANGER.SRCS) $(RANGER.HDRS)
 	$(RANGER.COMP)
 
 test: ranger-tests
