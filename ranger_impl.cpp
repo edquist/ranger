@@ -2,14 +2,8 @@
 
 ranger::set_iterator ranger::insert(ranger::range r)
 {
-    if (forest.empty())
-        return forest.insert(r).first;
-
     // NOTE: use upper_bound here if you don't want to coalesce
     set_iterator it_start = forest.lower_bound(r._start);
-    if (it_start == forest.end())
-        return forest.insert(r).first;
-
     set_iterator it = it_start;
     while (it != forest.end() && it->_start <= r._end)  // '<' for no coalesce
         ++it;
@@ -30,9 +24,6 @@ ranger::set_iterator ranger::insert(ranger::range r)
 ranger::set_iterator ranger::erase(ranger::range r)
 {
     set_iterator it_start = forest.upper_bound(r._start);
-    if (it_start == forest.end())
-        return it_start;
-
     set_iterator it = it_start;
     while (it != forest.end() && it->_start < r._end)
         ++it;
