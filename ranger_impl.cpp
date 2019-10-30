@@ -13,6 +13,9 @@ ranger::set_iterator ranger::insert(ranger::range r)
     if (it_start == it_end)
         return forest.insert(it_end, r);
 
+    if (it_start->contains(r))
+        return it_start;
+
     set_iterator it_back = --it;
     range rr_new = { std::min(it_start->_start, r._start),
                      std::max(it_back->_end, r._end) };

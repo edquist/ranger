@@ -40,6 +40,8 @@ struct ranger::range {
 
     int_type size()           const { return _end - _start; }
     bool contains(int_type x) const { return _start <= x && x < _end; }
+    bool contains(const range &r) const
+    { return _start <= r._start && r._end < _end; }
 
     // only for use in our disjoint ranger forest context
     bool operator< (const range &r2) const { return _end < r2._end; }
