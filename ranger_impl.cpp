@@ -50,7 +50,7 @@ ranger::set_iterator ranger::erase(ranger::range r)
         bool erase_start = r._start <= it_start->_start;
         bool erase_back = it_start->_end <= r._end;
         if (erase_start ^ erase_back) {
-            if (erase_start && !erase_back)
+            if (erase_start)
                 it_start->_start = r._end;
             else
                 it_start->_end = r._start;
