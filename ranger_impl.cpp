@@ -59,9 +59,11 @@ ranger::set_iterator ranger::erase(ranger::range r)
         return it_start;
 
     set_iterator it_back = --it;
+
     // avoid erase+insert if only shrinking an edge of a range
     if (it_start == it_back && shrink_single_edge(r, *it_start))
         return it_start;
+
     range rr_start = *it_start;
     range rr_back  = *it_back;
 
