@@ -8,23 +8,23 @@ struct ranger {
     struct range;
     typedef int                 value_type;
     typedef std::set<range>     set_type;
-    typedef set_type::iterator  set_iterator;
+    typedef set_type::iterator  iterator;
     struct elements;
 
     ranger() {};
     ranger(const std::initializer_list<range> &il);
 
-    set_iterator insert(range r);
-    set_iterator erase(range r);
+    iterator insert(range r);
+    iterator erase(range r);
 
-    std::pair<set_iterator, bool> find(value_type x) const;
+    std::pair<iterator, bool> find(value_type x) const;
 
     bool contains(value_type x) const { return find(x).second; }
     bool empty()                const { return forest.empty(); }
     void clear()                      { forest.clear(); }
 
-    set_iterator begin()        const { return forest.begin(); }
-    set_iterator end()          const { return forest.end();   }
+    iterator begin()            const { return forest.begin(); }
+    iterator end()              const { return forest.end();   }
 
     inline elements elements()  const;
 
@@ -89,7 +89,7 @@ struct ranger::elements {
 };
 
 struct ranger::elements::iterator {
-    iterator(set_iterator si) : sit(si), rit_valid(0) {}
+    iterator(ranger::iterator si) : sit(si), rit_valid(0) {}
     iterator() : rit_valid(0) {}
 
     value_type operator*();
@@ -101,7 +101,7 @@ struct ranger::elements::iterator {
     private:
     void mk_valid();
 
-    set_iterator sit;
+    ranger::iterator sit;
     range::iterator rit;
     bool rit_valid;
 };
