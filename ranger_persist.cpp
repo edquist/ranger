@@ -6,7 +6,7 @@
 
 void persist(std::string &s, const ranger &r)
 {
-    formatstr(s, "%s", "");
+    s.clear();
     if (r.empty())
         return;
 
