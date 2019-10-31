@@ -43,9 +43,7 @@ int update(ranger &r, const char *buf)
     } else {
         ranger r2;
         int ret = load(r2, buf+1);
-        if (ret == 0) {
-            return 0;
-        } else {
+        if (ret != 0) {
             printf("parse error\n\n");
             return -1;
         }
