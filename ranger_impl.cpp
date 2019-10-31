@@ -32,6 +32,21 @@ ranger::set_iterator ranger::insert(ranger::range r)
     return forest.insert(hint, rr_new);
 }
 
+static
+bool shrink_single_edge(const ranger::range &rm, const ranger::range &at)
+{
+    bool erase_start = rm._start <= at._start;
+    bool erase_back  = at._end   <= rm._end;
+    if (erase_start ^ erase_back) {
+        if (erase_start)
+            at._start = rm._end;
+        else
+            at._end = rm._start;
+        return true;
+    }
+    return false;
+}
+
 ranger::set_iterator ranger::erase(ranger::range r)
 {
     set_iterator it_start = forest.upper_bound(r._start);
@@ -44,19 +59,9 @@ ranger::set_iterator ranger::erase(ranger::range r)
         return it_start;
 
     set_iterator it_back = --it;
-
     // avoid erase+insert if only shrinking an edge of a range
-    if (it_start == it_back) {
-        bool erase_start = r._start <= it_start->_start;
-        bool erase_back = it_start->_end <= r._end;
-        if (erase_start ^ erase_back) {
-            if (erase_start)
-                it_start->_start = r._end;
-            else
-                it_start->_end = r._start;
-            return it_start;
-        }
-    }
+    if (it_start == it_back && shrink_single_edge(r, *it_start))
+        return it_start;
     range rr_start = *it_start;
     range rr_back  = *it_back;
 
