@@ -8,7 +8,7 @@ ALL = set-lb-ub $(RANGER)
 all: $(ALL)
 
 RANGER.HDRS = ranger.h ranger_ostream.h ranger_persist.h
-RANGER.SRCS = ranger_impl.cpp ranger_iterator_impl.cpp ranger_ostream.cpp \
+RANGER.SRCS = ranger_impl.cpp ranger_elements.cpp ranger_ostream.cpp \
               ranger_persist.cpp
 RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< $(RANGER.SRCS) -o $@
 

@@ -36,10 +36,10 @@ void demo3()
 
     std::cout << "Printing ranger " << rz << "\n";
     std::cout << ":";
-    for (int i : rz)
+    for (int i : rz.elements())
         std::cout << " " << i;
     /* same as:
-     *  for (auto &rr : rz.forest)
+     *  for (auto &rr : rz)
      *      for (int i : rr)
      *          std::cout << " " << i;
      */

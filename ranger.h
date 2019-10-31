@@ -6,10 +6,10 @@ typedef struct ranger range_mask;
 
 struct ranger {
     struct range;
-    struct iterator;
     typedef int                 value_type;
     typedef std::set<range>     set_type;
     typedef set_type::iterator  set_iterator;
+    struct elements;
 
     ranger() {};
     ranger(const std::initializer_list<range> &il);
@@ -21,11 +21,14 @@ struct ranger {
 
     bool contains(value_type x) const { return find(x).second; }
     bool empty()                const { return forest.empty(); }
-    void clear()                    { forest.clear(); }
+    void clear()                      { forest.clear(); }
 
-    inline iterator begin() const;
-    inline iterator end()   const;
+    set_iterator begin()        const { return forest.begin(); }
+    set_iterator end()          const { return forest.end();   }
 
+    inline elements elements()  const;
+
+    private:
     // the state of our ranger
     set_type forest;
 };
@@ -74,7 +77,18 @@ struct ranger::range::iterator {
     value_type i;
 };
 
-struct ranger::iterator {
+struct ranger::elements {
+    struct iterator;
+
+    elements(const ranger &r) : r(r) {}
+
+    inline iterator begin() const;
+    inline iterator end()   const;
+
+    const ranger &r;
+};
+
+struct ranger::elements::iterator {
     iterator(set_iterator si) : sit(si), rit_valid(0) {}
     iterator() : rit_valid(0) {}
 
@@ -93,9 +107,11 @@ struct ranger::iterator {
 };
 
 
-inline ranger::iterator ranger::begin() const { return forest.begin(); }
-inline ranger::iterator ranger::end()   const { return forest.end();   }
+typename ranger::elements ranger::elements() const { return *this; }
 
-inline ranger::range::iterator ranger::range::begin() const { return _start; }
-inline ranger::range::iterator ranger::range::end()   const { return _end;   }
+ranger::elements::iterator ranger::elements::begin() const { return r.begin(); }
+ranger::elements::iterator ranger::elements::end()   const { return r.end();   }
+
+ranger::range::iterator ranger::range::begin() const { return _start; }
+ranger::range::iterator ranger::range::end()   const { return _end;   }
 

@@ -59,7 +59,7 @@ int main()
                 printf("FAIL\n");
                 return 1;
             }
-            for (auto &range : e.forest)
+            for (auto &range : e)
                 r.erase(range);
         }
         persist(s, r);

@@ -1,14 +1,19 @@
 #include "ranger.h"
 
-/* Frankly, the user would be better served by the tremendously simpler:
+/* ranger::elements allows:
  *
- *      for (auto &rr : myranger.forest)
+ *      for (int i : myranger.elements())
+ *          process_int(i);
+ *
+ *
+ * Instead of the still-straightforward:
+ *
+ *      for (auto &rr : myranger)
  *          for (int i : rr)
  *              process_int(i);
  */
 
-
-void ranger::iterator::mk_valid()
+void ranger::elements::iterator::mk_valid()
 {
     if (!rit_valid) {
         rit = sit->begin();
@@ -16,13 +21,13 @@ void ranger::iterator::mk_valid()
     }
 }
 
-ranger::value_type ranger::iterator::operator*()
+ranger::value_type ranger::elements::iterator::operator*()
 {
     mk_valid();
     return *rit;
 }
 
-ranger::iterator &ranger::iterator::operator++()
+ranger::elements::iterator &ranger::elements::iterator::operator++()
 {
     mk_valid();
     if (++rit == sit->end()) {
@@ -32,7 +37,7 @@ ranger::iterator &ranger::iterator::operator++()
     return *this;
 }
 
-ranger::iterator &ranger::iterator::operator--()
+ranger::elements::iterator &ranger::elements::iterator::operator--()
 {
     mk_valid();
     if (rit == sit->begin()) {
@@ -43,7 +48,7 @@ ranger::iterator &ranger::iterator::operator--()
     return *this;
 }
 
-bool ranger::iterator::operator==(iterator &it)
+bool ranger::elements::iterator::operator==(iterator &it)
 {
     if (sit != it.sit)
         return false;
@@ -56,7 +61,7 @@ bool ranger::iterator::operator==(iterator &it)
     return rit == it.rit;
 }
 
-bool ranger::iterator::operator!=(iterator &it)
+bool ranger::elements::iterator::operator!=(iterator &it)
 {
     return !(*this == it);
 }
