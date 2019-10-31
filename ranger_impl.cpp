@@ -43,6 +43,19 @@ ranger::set_iterator ranger::erase(ranger::range r)
         return it_start;
 
     set_iterator it_back = --it;
+
+    // avoid erase+insert if only shrinking an edge of a range
+    if (it_start == it_back) {
+        bool erase_start = r._start <= it_start->_start;
+        bool erase_back = it_start->_end <= r._end;
+        if (erase_start ^ erase_back) {
+            if (erase_start && !erase_back)
+                it_start->_start = r._end;
+            else
+                it_start->_end = r._start;
+            return it_start;
+        }
+    }
     range rr_start = *it_start;
     range rr_back  = *it_back;
 
