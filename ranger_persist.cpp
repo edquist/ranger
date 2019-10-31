@@ -41,8 +41,8 @@ void persist_range(std::string &s, const ranger &r, const ranger::range &rr)
     if (r.empty())
         return;
 
-    auto rit = r.find(rr._start).first, r_end = r.end();
-    for (; rit != r_end && rit->_start < rr._end; ++rit)
+    auto rit = r.find(rr._start).first;
+    for (; rit != r.end() && rit->_start < rr._end; ++rit)
         persist_range_single(s, *rit);
 
     s.erase(s.size() - 1);
