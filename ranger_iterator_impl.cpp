@@ -1,6 +1,12 @@
 #include "ranger.h"
 
-/* Frankly, the user would be better served by the tremendously simpler:
+/* ranger::elements allows:
+ *
+ *      for (int i : myranger.elements())
+ *          process_int(i);
+ *
+ *
+ * Instead of the still-straightforward:
  *
  *      for (auto &rr : myranger.forest)
  *          for (int i : rr)
