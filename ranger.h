@@ -77,14 +77,14 @@ struct ranger::range::iterator {
 };
 
 struct ranger::elements {
-	struct iterator;
+    struct iterator;
 
-	elements(const ranger &r) : r(r) {}
+    elements(const ranger &r) : r(r) {}
 
-	inline iterator begin() const;
-	inline iterator end()   const;
+    inline iterator begin() const;
+    inline iterator end()   const;
 
-	const ranger &r;
+    const ranger &r;
 };
 
 struct ranger::elements::iterator {
