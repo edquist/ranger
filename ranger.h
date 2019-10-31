@@ -21,7 +21,7 @@ struct ranger {
 
     bool contains(value_type x) const { return find(x).second; }
     bool empty()                const { return forest.empty(); }
-    void clear()                    { forest.clear(); }
+    void clear()                      { forest.clear(); }
 
     inline iterator begin() const;
     inline iterator end()   const;
