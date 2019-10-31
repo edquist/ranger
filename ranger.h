@@ -28,6 +28,7 @@ struct ranger {
 
     inline elements elements() const;
 
+    private:
     // the state of our ranger
     set_type forest;
 };
