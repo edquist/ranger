@@ -26,7 +26,7 @@ struct ranger {
     set_iterator begin()        const { return forest.begin(); }
     set_iterator end()          const { return forest.end();   }
 
-    inline elements elements() const;
+    inline elements elements()  const;
 
     private:
     // the state of our ranger
