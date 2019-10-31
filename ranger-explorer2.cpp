@@ -47,7 +47,7 @@ int update(ranger &r, const char *buf)
             printf("parse error\n\n");
             return -1;
         }
-        for (auto &rr : r2.forest)
+        for (auto &rr : r2)
             r.erase(rr);
     }
     return 0;
