@@ -1,4 +1,5 @@
 
+#include <stdlib.h> // strtol
 #include "ranger.h"
 
 #include "stl_string_utils.h"
@@ -21,49 +22,30 @@ void persist(std::string &s, const ranger &r)
 // returns 0 on success, (-1 - (position in string)) on parse failure
 int load(ranger &r, const char *s)
 {
-    static const char start_back_sep = '-';
-    static const char range_sep = ';';
-
-    const char *sstart;
-    int pos;
-    int start, back;
-    int ret;
-    char c;
-
-    for (;;) {
-        // get range start
-        ret = sscanf(s, "%d%n", &start, &pos);
-        if (ret != 1)
-            return 0;  // OK, we hit the end
-        s += pos;
-        ret = sscanf(s, "%c%n", &c, &pos);
-        if (ret != 1) {
+    while (*s) {
+        char *sp;
+        int start = strtol(s, &sp, 10);
+        int back;
+        if (s == sp)
+            return 0;
+        s = sp;
+        if (*sp == '-') {
+            s++;
+            back = strtol(s, &sp, 10);
+            if (s == sp)
+                return -1;  // a number should have followed '-'
+            s = sp;
+        } else if (*sp == ';' || *sp == '\0') {
             back = start;
-            r.insert({start, back + 1});
-            return 0;  // OK, we hit the end
+        } else {
+            return -1;
         }
-        s += pos;
-        switch (c) {
-        case range_sep:
-            back = start;
-            r.insert({start, back + 1});
-            break;
-        case start_back_sep:
-            // get range back
-            ret = sscanf(s, "%d%n", &back, &pos);
-            if (ret != 1)
-                return -1 - int(s - sstart);
-            s += pos;
-            r.insert({start, back + 1});
-            ret = sscanf(s, "%c%n", &c, &pos);
-            if (ret != 1)
-                return 0;  // OK, we hit the end
-            s += pos;
-            if (c != range_sep)
-                return -1 - int(s - sstart);
-        default:
-            return -1 - int(s - sstart);
-        }
+        r.insert({start, back + 1});
+        if (*s == ';')
+            s++;
+        else if (*s)
+            return -1;  // expected either ';' or end of string
     }
+    return 0;
 }
 
