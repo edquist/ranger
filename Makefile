@@ -9,7 +9,7 @@ all: $(ALL)
 
 RANGER.HDRS = ranger.h ranger_ostream.h ranger_persist.h
 RANGER.SRCS = ranger_impl.cpp ranger_iterator_impl.cpp ranger_ostream.cpp \
-              stl_string_utils.cpp ranger_persist.cpp
+              ranger_persist.cpp
 RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< $(RANGER.SRCS) -o $@
 
 $(RANGER): %: %.cpp $(RANGER.SRCS) $(RANGER.HDRS)

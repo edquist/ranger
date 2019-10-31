@@ -1,8 +1,8 @@
 
 #include <stdlib.h> // strtol
+#include <stdio.h>  // sprintf
+#include <string>
 #include "ranger.h"
-
-#include "stl_string_utils.h"
 
 void persist(std::string &s, const ranger &r)
 {
@@ -10,11 +10,15 @@ void persist(std::string &s, const ranger &r)
     if (r.empty())
         return;
 
-    for (auto &rr : r.forest)
+    for (auto &rr : r.forest) {
+        char buf[64];
+        int n;
         if (rr._start == rr._end - 1)
-            formatstr_cat(s, "%d;", rr._start);
+            n = sprintf(buf, "%d;", rr._start);
         else
-            formatstr_cat(s, "%d-%d;", rr._start, rr._end - 1);
+            n = sprintf(buf, "%d-%d;", rr._start, rr._end - 1);
+        s.append(s, n);
+    }
 
     s.erase(s.size() - 1);
 }
