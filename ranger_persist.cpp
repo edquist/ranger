@@ -33,11 +33,11 @@ int load(ranger &r, const char *s)
     for (;;) {
         // get range start
         ret = sscanf(s, "%d%n", &start, &pos);
-        if (ret != 2)
+        if (ret != 1)
             return 0;  // OK, we hit the end
         s += pos;
         ret = sscanf(s, "%c%n", &c, &pos);
-        if (ret != 2) {
+        if (ret != 1) {
             back = start;
             r.insert({start, back + 1});
             return 0;  // OK, we hit the end
@@ -51,12 +51,12 @@ int load(ranger &r, const char *s)
         case start_back_sep:
             // get range back
             ret = sscanf(s, "%d%n", &back, &pos);
-            if (ret != 2)
+            if (ret != 1)
                 return -1 - int(s - sstart);
             s += pos;
             r.insert({start, back + 1});
             ret = sscanf(s, "%c%n", &c, &pos);
-            if (ret != 2)
+            if (ret != 1)
                 return 0;  // OK, we hit the end
             s += pos;
             if (c != range_sep)
