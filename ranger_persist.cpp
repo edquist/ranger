@@ -4,6 +4,13 @@
 #include <string>
 #include "ranger.h"
 
+/*  persist / load ranger objects
+ *
+ *  The serialized format is one or more sub-ranges, separated by semicolons,
+ *  where each sub-range is either N-M (for inclusive N..M) or N for a single
+ *  integer.  Eg, "2", "5-10", "4;7;10-20;44;50-60"
+ */
+
 void persist(std::string &s, const ranger &r)
 {
     s.clear();
