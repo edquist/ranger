@@ -11,23 +11,46 @@
  *  integer.  Eg, "2", "5-10", "4;7;10-20;44;50-60"
  */
 
+static
+void persist_range_single(std::string &s, const ranger::range &rr)
+{
+    char buf[64];
+    int n;
+    if (rr._start == rr._end - 1)
+        n = sprintf(buf, "%d;", rr._start);
+    else
+        n = sprintf(buf, "%d-%d;", rr._start, rr._end - 1);
+    s.append(buf, n);
+}
+
 void persist(std::string &s, const ranger &r)
 {
     s.clear();
     if (r.empty())
         return;
 
-    for (auto &rr : r.forest) {
-        char buf[64];
-        int n;
-        if (rr._start == rr._end - 1)
-            n = sprintf(buf, "%d;", rr._start);
-        else
-            n = sprintf(buf, "%d-%d;", rr._start, rr._end - 1);
-        s.append(buf, n);
-    }
+    for (auto &rr : r.forest)
+        persist_range_single(s, rr);
 
     s.erase(s.size() - 1);
+}
+
+void persist_range(std::string &s, const ranger &r, const ranger::range &rr)
+{
+    s.clear();
+    if (r.empty())
+        return;
+
+    auto rit = r.find(rr._start).first, r_end = r.forest.end();
+    for (; rit != r_end && rit->_start < rr._end; ++rit)
+        persist_range_single(s, *rit);
+
+    s.erase(s.size() - 1);
+}
+
+void persist_slice(std::string &s, const ranger &r, int start, int back)
+{
+    persist_range(s, r, {start, back+1});
 }
 
 // returns 0 on success, (-1 - (position in string)) on parse failure
