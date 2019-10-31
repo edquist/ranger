@@ -29,7 +29,7 @@ void persist(std::string &s, const ranger &r)
     if (r.empty())
         return;
 
-    for (auto &rr : r.forest)
+    for (auto &rr : r)
         persist_range_single(s, rr);
 
     s.erase(s.size() - 1);
@@ -41,7 +41,7 @@ void persist_range(std::string &s, const ranger &r, const ranger::range &rr)
     if (r.empty())
         return;
 
-    auto rit = r.find(rr._start).first, r_end = r.forest.end();
+    auto rit = r.find(rr._start).first, r_end = r.end();
     for (; rit != r_end && rit->_start < rr._end; ++rit)
         persist_range_single(s, *rit);
 

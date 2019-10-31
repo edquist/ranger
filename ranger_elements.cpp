@@ -8,7 +8,7 @@
  *
  * Instead of the still-straightforward:
  *
- *      for (auto &rr : myranger.forest)
+ *      for (auto &rr : myranger)
  *          for (int i : rr)
  *              process_int(i);
  */

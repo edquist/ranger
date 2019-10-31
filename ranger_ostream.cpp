@@ -10,7 +10,7 @@ std::ostream &operator<<(std::ostream &os, const ranger::range &rr)
 std::ostream &operator<<(std::ostream &os, const ranger &r)
 {
     os << "{";
-    for (ranger::range rr : r.forest)
+    for (ranger::range rr : r)
         os << " " << rr;
     return os << " }";
 }
