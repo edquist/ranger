@@ -2,6 +2,8 @@
 
 #include <set>
 
+typedef struct ranger range_mask;
+
 struct ranger {
     struct range;
     struct iterator;
