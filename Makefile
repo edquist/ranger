@@ -15,9 +15,10 @@ RANGER.COMP = $(CXX) $(CPPFLAGS) $(CXXFLAGS) $< $(RANGER.SRCS) -o $@
 $(RANGER): %: %.cpp $(RANGER.SRCS) $(RANGER.HDRS)
 	$(RANGER.COMP)
 
-test: ranger-tests
+test: ranger-tests ranger-tests2
 	@if ./ranger-tests | diff -q - test-out.txt; then \
 		echo OK; else echo FAIL; fi
+	@./ranger-tests2
 
 clean:
 	$(RM) $(ALL)
