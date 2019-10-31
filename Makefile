@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -O3
 CPPFLAGS = -std=c++11
 
-RANGER = ranger-tests ranger-explorer ranger-explorer2
+RANGER = ranger-tests ranger-explorer ranger-explorer2 ranger-tests2
 ALL = set-lb-ub $(RANGER)
 
 all: $(ALL)
