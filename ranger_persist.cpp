@@ -26,18 +26,21 @@ void persist(std::string &s, const ranger &r)
 // returns 0 on success, (-1 - (position in string)) on parse failure
 int load(ranger &r, const char *s)
 {
+    const char *sstart = s;
     while (*s) {
         char *sp;
         int start = strtol(s, &sp, 10);
         int back;
         if (s == sp)
-            return 0;
+            // no int parsed is ok as long as we're at the end
+            return *s ? -1 - int(s - sstart) : 0;
         s = sp;
         if (*sp == '-') {
             s++;
             back = strtol(s, &sp, 10);
             if (s == sp)
-                return -1;  // a number should have followed '-'
+                // a number should have followed '-'
+                return -1 - int(s - sstart);
             s = sp;
         } else {
             back = start;
@@ -45,7 +48,8 @@ int load(ranger &r, const char *s)
         if (*s == ';')
             s++;
         else if (*s)
-            return -1;  // expected either ';' or end of string
+            // expected either ';' or end of string
+            return -1 - int(s - sstart);
         r.insert({start, back + 1});
     }
     return 0;
