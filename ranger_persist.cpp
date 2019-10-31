@@ -17,7 +17,7 @@ void persist(std::string &s, const ranger &r)
             n = sprintf(buf, "%d;", rr._start);
         else
             n = sprintf(buf, "%d-%d;", rr._start, rr._end - 1);
-        s.append(s, n);
+        s.append(buf, n);
     }
 
     s.erase(s.size() - 1);
