@@ -35,16 +35,14 @@ int load(ranger &r, const char *s)
             if (s == sp)
                 return -1;  // a number should have followed '-'
             s = sp;
-        } else if (*sp == ';' || *sp == '\0') {
-            back = start;
         } else {
-            return -1;
+            back = start;
         }
-        r.insert({start, back + 1});
         if (*s == ';')
             s++;
         else if (*s)
             return -1;  // expected either ';' or end of string
+        r.insert({start, back + 1});
     }
     return 0;
 }
