@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "ranger.h"
 #include "ranger_persist.h"
 
@@ -8,12 +9,15 @@ void help()
 {
     printf("%s",
         "Commands:\n"
-        "+ START BACK       add range [START,BACK]\n"
-        "- START BACK       remove range [START,BACK]\n"
+        "+ RANGE_SPEC       load range spec\n"
+        "- RANGE_SPEC       remove range spec\n"
         "r/c                reset\n"
         "q                  quit\n"
         "p                  print current set of ranges\n"
         "?/h                print this help\n"
+        "\n"
+        "Note: RANGE_SPEC is one or more ';'-separated items of the form\n"
+        "      N or N-M.  Eg, '2', '5-10', '4;7;10-20;44;50-60'\n"
         "\n");
 }
 
@@ -26,29 +30,36 @@ void print(const ranger &r)
 
 int update(ranger &r, const char *buf)
 {
-    int start, back;
     char mode = buf[0];
 
-    switch (sscanf(buf+1, "%d-%d", &start, &back)) {
-    case 1:
-        back = start;
-        // falls through
-    case 2:
-        if (start > back) {
-            printf("must specify START <= BACK\n");
+    if (mode == '+') {
+        int ret = load(r, buf+1);
+        if (ret == 0) {
+            return 0;
         } else {
-            if (mode == '+') {
-                r.insert({start, back+1});
-            } else {
-                r.erase({start, back+1});
-            }
+            printf("parse error\n\n");
+            return -1;
         }
-        break;
-    default:
-        printf("bad add/remove command: '%s'\n\n", buf);
-        return -1;
+    } else {
+        ranger r2;
+        int ret = load(r2, buf+1);
+        if (ret == 0) {
+            return 0;
+        } else {
+            printf("parse error\n\n");
+            return -1;
+        }
+        for (auto &rr : r2.forest)
+            r.erase(rr);
     }
     return 0;
+}
+
+void chomp(char *buf)
+{
+    size_t len = strlen(buf);
+    if (buf[len-1] == '\n')
+        buf[len-1] = 0;
 }
 
 int main()
@@ -59,6 +70,7 @@ int main()
     help();
 
     while (fgets(buf, sizeof buf, stdin)) {
+        chomp(buf);
         switch (buf[0]) {
         case '-':
         case '+':
@@ -80,8 +92,10 @@ int main()
         case '?':
             help();
             break;
+        case '\0':
         case '\n':
         case ' ':
+        case '#':
             continue;
         default:
             printf("Command not understood: %s\n\n", buf);
